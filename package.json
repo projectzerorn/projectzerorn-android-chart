@@ -1,6 +1,6 @@
 {
   "name": "projectzerorn-android-chart",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "react-native-mpchart provide modules to add chart to android,all charts are come from mpandroidchart library.",
   "main": "index.android.js",
   "scripts": {
