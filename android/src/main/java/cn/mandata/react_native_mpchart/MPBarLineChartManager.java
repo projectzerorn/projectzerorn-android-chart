@@ -21,7 +21,8 @@ import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.formatter.XAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-
+import com.github.mikephil.charting.data.Entry;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -331,5 +332,18 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
     @ReactProp(name="fitScreen")
     public void setLegend(BarLineChartBase chart,boolean v){
         if(v)chart.fitScreen();
+    }
+
+    protected class ValueFormatter implements com.github.mikephil.charting.formatter.ValueFormatter {
+        private DecimalFormat mFormat;
+
+        public ValueFormatter(String f) {
+            mFormat = new DecimalFormat(f);
+        }
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return mFormat.format(value);
+        }
     }
 }

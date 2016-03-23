@@ -17,13 +17,10 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by Administrator on 2015/11/6.
- */
+
 public class MPBarChartManager extends MPBarLineChartManager {
     private String CLASS_NAME="MPBarChart";
     @Override
@@ -68,10 +65,16 @@ public class MPBarChartManager extends MPBarLineChartManager {
                 int[] colors=new int[]{Color.parseColor(config.getString("color"))};
                 dataSet.setColors(colors);
             }
+            if (rm.hasKey("drawValues")) {
+                dataSet.setDrawValues(rm.getBoolean("drawValues"));
+            }
             barData.addDataSet(dataSet);
-
         }
         chart.setBackgroundColor(Color.WHITE);
+
+        if (rm.hasKey("valueFormat")) {
+            barData.setValueFormatter(new ValueFormatter(rm.getString("valueFormat")));
+        }
         chart.setData(barData);
         chart.invalidate();
     }

@@ -88,9 +88,16 @@ public class MPLineChartManager extends MPBarLineChartManager {
             if(config.hasKey("lineWidth")){
                 dataSet.setLineWidth(config.getInt("lineWidth"));
             }
+            if (rm.hasKey("drawValues")) {
+                dataSet.setDrawValues(rm.getBoolean("drawValues"));
+            }
             chartData.addDataSet(dataSet);
         }
         chart.setBackgroundColor(Color.WHITE);
+
+        if (rm.hasKey("valueFormat")) {
+            chartData.setValueFormatter(new ValueFormatter(rm.getString("valueFormat")));
+        }
         chart.setData(chartData);
         chart.invalidate();
     }
