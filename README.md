@@ -11,58 +11,7 @@ about MpAndroidChart ,you can read doc:
 
 ```
 npm install projectzerorn-android-chart --save
-```
-
-### Add it to your android project
-
-* In `android/setting.gradle`
-
-```gradle
-include ':react-native-chart-android'
-project(':react-native-chart-android').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-chart-android/android')
-```
-
-* In `android/app/build.gradle`
-
-```gradle
-...
-dependencies {
-  ...
-  compile project(':react-native-chart-android')
-}
-```
-
-* Register Module (in MainActivity.java)
-
-```java
-import cn.mandata.react_native_mpchart.MPChartPackage;  // <--- import
-
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
-  ......
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mReactRootView = new ReactRootView(this);
-
-    mReactInstanceManager = ReactInstanceManager.builder()
-      .setApplication(getApplication())
-      .setBundleAssetName("index.android.bundle")
-      .setJSMainModuleName("index.android")
-      .addPackage(new MainReactPackage())
-      .addPackage(new MPChartPackage()) // <------ add this line to yout MainActivity class
-      .setUseDeveloperSupport(BuildConfig.DEBUG)
-      .setInitialLifecycleState(LifecycleState.RESUMED)
-      .build();
-
-    mReactRootView.startReactApplication(mReactInstanceManager, "AndroidRNSample", null);
-
-    setContentView(mReactRootView);
-  }
-
-  ......
-
-}
+rnpm link projectzerorn-android-chart
 ```
 
 ## Example
