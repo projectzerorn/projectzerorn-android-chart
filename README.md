@@ -10,7 +10,7 @@ about MpAndroidChart ,you can read doc:
 ### Installation
 
 ```
-npm install react-native-chart-android --save
+npm install projectzerorn-android-chart --save
 ```
 
 ### Add it to your android project
