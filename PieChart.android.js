@@ -8,6 +8,7 @@ var iface = {
         hasAnimate: PropTypes.bool,
         holeRadius: PropTypes.number,
         hasHoleFrame: PropTypes.bool,
+        centerText: PropTypes.array,
         data: PropTypes.object,
         touchEnabled: PropTypes.bool,
         dragEnabled: PropTypes.bool,

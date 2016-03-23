@@ -16,6 +16,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendPosition;
 import android.graphics.Color;
+import android.text.Spanned;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.AbsoluteSizeSpan;
 
 import java.util.ArrayList;
 
@@ -80,7 +84,6 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
         }
         chart.setData(pieData);
         chart.setRotationEnabled(false); // 不可以手动旋转
-        chart.setHoleColorTransparent(true);
         chart.invalidate();
     }
 
@@ -154,5 +157,49 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
         }
     }
 
+    @ReactProp(name="centerText")
+    public void setCenterText(PieChart chart, ReadableArray ra) {
+        String allStr = "";
+        for (int i = 0; i < ra.size(); i++) {
+            ReadableMap temp = ra.getMap(i);
+            String tempText = temp.getString("text");
+            Integer tempColor = Color.parseColor(temp.getString("color"));
+            int tempSize = temp.getInt("size");
+            boolean isWrap = temp.getBoolean("isWrap");
 
+            if(allStr.length() == 0){
+                allStr = tempText;
+            }else{
+                if(isWrap){
+                    allStr = allStr + "\n" + tempText;
+                }else{
+                    allStr = allStr + tempText;
+                }
+
+            }
+        }
+        SpannableString centerText = new SpannableString(allStr);
+
+        int index = 0;
+        for (int i = 0; i < ra.size(); i++) {
+            ReadableMap temp = ra.getMap(i);
+            String tempText = temp.getString("text");
+            Integer tempColor = Color.parseColor(temp.getString("color"));
+            int tempSize = temp.getInt("size");
+            boolean isWrap = temp.getBoolean("isWrap");
+            if(isWrap){
+                index++;
+            }
+
+            //文字颜色
+            centerText.setSpan(new ForegroundColorSpan(tempColor), index, index+tempText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            //文字大小, //AbsoluteSizeSpan第二个参数boolean dip，如果为true，表示前面的字体大小单位为dip，否则为像素
+            centerText.setSpan(new AbsoluteSizeSpan(tempSize,true), index, index+tempText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            index = index + tempText.length();
+        }
+
+        chart.setCenterText(centerText);
+    }
 }
