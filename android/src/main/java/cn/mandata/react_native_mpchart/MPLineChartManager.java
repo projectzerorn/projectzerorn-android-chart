@@ -79,6 +79,15 @@ public class MPLineChartManager extends MPBarLineChartManager {
                 int[] colors=new int[]{Color.parseColor(config.getString("color"))};
                 dataSet.setColors(colors);
             }
+            if(config.hasKey("drawFilled")){
+                dataSet.setDrawFilled(config.getBoolean("drawFilled"));
+            }
+            if(config.hasKey("fillColor")){
+                dataSet.setFillColor(Color.parseColor(config.getString("fillColor")));
+            }
+            if(config.hasKey("lineWidth")){
+                dataSet.setLineWidth(config.getInt("lineWidth"));
+            }
             chartData.addDataSet(dataSet);
         }
         chart.setBackgroundColor(Color.WHITE);
