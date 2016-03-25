@@ -1,5 +1,5 @@
 var React = require('react-native');
-var { requireNativeComponent,PropTypes } = React;
+var { requireNativeComponent,PropTypes,Platform} = React;
 
 var iface = {
     name: 'PieChart',
@@ -52,4 +52,6 @@ var iface = {
     },
 };
 
-module.exports = requireNativeComponent('MPPieChart', iface);
+if (Platform.OS === 'android') {
+    module.exports = requireNativeComponent('MPPieChart', iface);
+}

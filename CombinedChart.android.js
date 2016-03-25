@@ -1,4 +1,4 @@
-import React,{ requireNativeComponent, Component, PropTypes, View } from 'react-native';
+import React,{ requireNativeComponent, Component, PropTypes, View, Platform} from 'react-native';
 
 class CombinedChart extends Component {
     constructor(props) {
@@ -6,15 +6,15 @@ class CombinedChart extends Component {
     }
 
     render() {
-        let chartData={};
-        let children=this.props.children;
-        if(children.length){
+        let chartData = {};
+        let children = this.props.children;
+        if (children.length) {
             for (var i = 0; i < children.length; i++) {
-                var child=children[i]
-                chartData[child.props.chartType]=child.props.data;
+                var child = children[i]
+                chartData[child.props.chartType] = child.props.data;
             }
-        }else{
-            chartData[children.props.chartType]=children.props.data;
+        } else {
+            chartData[children.props.chartType] = children.props.data;
         }
         let {
             style,
@@ -31,34 +31,34 @@ class CombinedChart extends Component {
 }
 
 CombinedChart.propTypes = {
-    data:PropTypes.object,
-    touchEnabled:PropTypes.bool,
-    dragEnabled:PropTypes.bool,
-    scaleEnabled:PropTypes.bool,
-    scaleXEnabled:PropTypes.bool,
-    scaleYEnabled:PropTypes.bool,
-    pinchZoom:PropTypes.bool,
-    doubleTapToZoomEnabled:PropTypes.bool,
-    highlightPerDragEnabled:PropTypes.bool,
-    highlightPerTapEnabled:PropTypes.bool,
-    dragDecelerationEnabled:PropTypes.bool,
-    dragDecelerationFrictionCoef:PropTypes.number,
-    maxVisibleValueCount:PropTypes.number,
-    limitLine:PropTypes.object,
-    description:PropTypes.string,
-    backgroundColor:PropTypes.string,
-    drawGridBackground:PropTypes.bool,
-    gridBackgroundColor:PropTypes.string,
-    visibleXRange:PropTypes.array,
-    borderColor:PropTypes.string,
-    borderWidth:PropTypes.number,
-    xAxis:PropTypes.object,
-    yAxisLeft:PropTypes.object,
-    yAxisRight:PropTypes.object,
-    yAxis:PropTypes.object,
-    fitScreen:PropTypes.bool,
-    chartPadding:PropTypes.string,
-    legend:PropTypes.object,
+    data: PropTypes.object,
+    touchEnabled: PropTypes.bool,
+    dragEnabled: PropTypes.bool,
+    scaleEnabled: PropTypes.bool,
+    scaleXEnabled: PropTypes.bool,
+    scaleYEnabled: PropTypes.bool,
+    pinchZoom: PropTypes.bool,
+    doubleTapToZoomEnabled: PropTypes.bool,
+    highlightPerDragEnabled: PropTypes.bool,
+    highlightPerTapEnabled: PropTypes.bool,
+    dragDecelerationEnabled: PropTypes.bool,
+    dragDecelerationFrictionCoef: PropTypes.number,
+    maxVisibleValueCount: PropTypes.number,
+    limitLine: PropTypes.object,
+    description: PropTypes.string,
+    backgroundColor: PropTypes.string,
+    drawGridBackground: PropTypes.bool,
+    gridBackgroundColor: PropTypes.string,
+    visibleXRange: PropTypes.array,
+    borderColor: PropTypes.string,
+    borderWidth: PropTypes.number,
+    xAxis: PropTypes.object,
+    yAxisLeft: PropTypes.object,
+    yAxisRight: PropTypes.object,
+    yAxis: PropTypes.object,
+    fitScreen: PropTypes.bool,
+    chartPadding: PropTypes.string,
+    legend: PropTypes.object,
     scaleX: PropTypes.number,
     scaleY: PropTypes.number,
     translateX: PropTypes.number,
@@ -79,10 +79,10 @@ class chart extends Component {
     }
 }
 chart.propTypes = {
-    chartType:PropTypes.string,
-    data:PropTypes.object
+    chartType: PropTypes.string,
+    data: PropTypes.object
 };
-CombinedChart.Chart=chart;
+CombinedChart.Chart = chart;
 
 // RIGHT_OF_CHART,
 //  RIGHT_OF_CHART_CENTER,
@@ -98,6 +98,7 @@ CombinedChart.Chart=chart;
 //  ABOVE_CHART_CENTER,
 //  PIECHART_CENTER;
 
-var MPCombinedChart = requireNativeComponent('MPCombinedChart', CombinedChart);
-
+if (Platform.OS === 'android') {
+    var MPCombinedChart = requireNativeComponent('MPCombinedChart', CombinedChart);
+}
 export default CombinedChart;
