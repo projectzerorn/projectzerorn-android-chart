@@ -70,12 +70,21 @@ public class MPBarChartManager extends MPBarLineChartManager {
             }
             barData.addDataSet(dataSet);
         }
-        chart.setBackgroundColor(Color.WHITE);
 
         if (rm.hasKey("valueFormat")) {
             barData.setValueFormatter(new ValueFormatter(rm.getString("valueFormat")));
         }
         chart.setData(barData);
         chart.invalidate();
+    }
+
+    @ReactProp(name = "backgroundColor")
+    public void setDescription(BarChart chart, String v) {
+        if(v.startsWith("#")){
+            chart.setBackgroundColor(Color.parseColor(v));
+        }else{
+            chart.setBackgroundColor(Color.parseColor("#00000000"));
+        }
+
     }
 }
