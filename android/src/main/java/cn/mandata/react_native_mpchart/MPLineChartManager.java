@@ -74,6 +74,7 @@ public class MPLineChartManager extends MPBarLineChartManager {
             ReadableMap config= map.getMap("config");
             LineDataSet dataSet=new LineDataSet(entries,label);
             if(config.hasKey("drawCircles")) dataSet.setDrawCircles(config.getBoolean("drawCircles"));
+            if(config.hasKey("drawCubic")) dataSet.setDrawCubic(config.getBoolean("drawCubic"));
             if(config.hasKey("circleSize")) dataSet.setCircleSize((float) config.getDouble("circleSize"));
             if(config.hasKey("color")) {
                 int[] colors=new int[]{Color.parseColor(config.getString("color"))};
