@@ -1,26 +1,14 @@
 package cn.mandata.react_native_mpchart;
 
 import android.graphics.Color;
-
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -95,8 +83,14 @@ public class MPLineChartManager extends MPBarLineChartManager {
             if(config.hasKey("lineWidth")){
                 dataSet.setLineWidth(config.getInt("lineWidth"));
             }
-            if (rm.hasKey("drawValues")) {
-                dataSet.setDrawValues(rm.getBoolean("drawValues"));
+            if (config.hasKey("drawValues")) {
+                dataSet.setDrawValues(config.getBoolean("drawValues"));
+            }
+            if (config.hasKey("valueTextFontSize")) {
+                dataSet.setValueTextSize(config.getInt("valueTextFontSize"));
+            }
+            if (config.hasKey("valueTextColor")) {
+                dataSet.setValueTextColor(Color.parseColor(config.getString("valueTextColor")));
             }
             chartData.addDataSet(dataSet);
         }
