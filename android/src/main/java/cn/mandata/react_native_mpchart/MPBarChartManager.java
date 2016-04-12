@@ -61,10 +61,16 @@ public class MPBarChartManager extends MPBarLineChartManager {
             entries.add(be);*/
             BarDataSet dataSet=new BarDataSet(entries,label);
             ReadableMap config= map.getMap("config");
+
             if(config.hasKey("color")) {
-                int[] colors=new int[]{Color.parseColor(config.getString("color"))};
-                dataSet.setColors(colors);
+                ArrayList<Integer> colorsArrayList = new ArrayList<Integer>();
+                ReadableArray collorArray = config.getArray("color");
+                for(int k=0; k < collorArray.size(); k++){
+                    colorsArrayList.add(Color.parseColor(collorArray.getString(k)));
+                }
+                dataSet.setColors(colorsArrayList);
             }
+
             if (rm.hasKey("drawValues")) {
                 dataSet.setDrawValues(rm.getBoolean("drawValues"));
             }
