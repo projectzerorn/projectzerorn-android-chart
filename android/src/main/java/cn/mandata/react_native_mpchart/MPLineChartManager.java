@@ -109,7 +109,7 @@ public class MPLineChartManager extends MPBarLineChartManager {
     }
 
     @ReactProp(name = "backgroundColor")
-    public void setDescription(BarChart chart, String v) {
+    public void setDescription(LineChart chart, String v) {
         if(v.startsWith("#")){
             chart.setBackgroundColor(Color.parseColor(v));
         }else{
