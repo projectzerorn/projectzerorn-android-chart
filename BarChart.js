@@ -1,36 +1,23 @@
-import React,{ requireNativeComponent, Component, PropTypes, View, Platform} from 'react-native';
+import React,{ requireNativeComponent, Component, PropTypes, View, Platform } from 'react-native';
 
-class CombinedChart extends Component {
+if(Platform.OS === 'android') {
+    var MPBarChart = requireNativeComponent('MPBarChart', BarChart);
+}
+
+class BarChart extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        let chartData = {};
-        let children = this.props.children;
-        if (children.length) {
-            for (var i = 0; i < children.length; i++) {
-                var child = children[i]
-                chartData[child.props.chartType] = child.props.data;
-            }
-        } else {
-            chartData[children.props.chartType] = children.props.data;
-        }
-        let {
-            style,
-            data,
-            ...other
-            }=this.props;
         return (
-            <MPCombinedChart
-                style={this.props.style}
-                {...other}
-                data={chartData}/>
+            <MPBarChart {...this.props}/>
         );
     }
 }
 
-CombinedChart.propTypes = {
+BarChart.propTypes = {
+    ...View.propTypes,
     data: PropTypes.object,
     touchEnabled: PropTypes.bool,
     dragEnabled: PropTypes.bool,
@@ -70,35 +57,8 @@ CombinedChart.propTypes = {
     accessibilityComponentType: React.PropTypes.string,
     importantForAccessibility: React.PropTypes.string,
     accessibilityLabel: React.PropTypes.string,
-    testID: React.PropTypes.string
-};
-
-class chart extends Component {
-    constructor(props) {
-        super(props);
-    }
+    testID: React.PropTypes.string,
 }
-chart.propTypes = {
-    chartType: PropTypes.string,
-    data: PropTypes.object
-};
-CombinedChart.Chart = chart;
 
-// RIGHT_OF_CHART,
-//  RIGHT_OF_CHART_CENTER,
-//  RIGHT_OF_CHART_INSIDE,
-//  LEFT_OF_CHART,
-//  LEFT_OF_CHART_CENTER,
-//  LEFT_OF_CHART_INSIDE,
-//  BELOW_CHART_LEFT,
-//  BELOW_CHART_RIGHT,
-//  BELOW_CHART_CENTER,
-//  ABOVE_CHART_LEFT,
-//  ABOVE_CHART_RIGHT,
-//  ABOVE_CHART_CENTER,
-//  PIECHART_CENTER;
 
-if (Platform.OS === 'android') {
-    var MPCombinedChart = requireNativeComponent('MPCombinedChart', CombinedChart);
-}
-export default CombinedChart;
+export default BarChart;
