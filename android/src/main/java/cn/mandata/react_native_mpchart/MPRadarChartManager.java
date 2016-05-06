@@ -60,7 +60,7 @@ public class MPRadarChartManager extends SimpleViewManager<RadarChart> {
         ReadableArray ra = rm.getArray("dataSets");
         for (int i = 0; i < ra.size(); i++) {
             ReadableMap map = ra.getMap(i);
-            ReadableArray data = map.getArray("data");
+            ReadableArray data = map.getArray("values");
             String label = map.getString("label");
             ArrayList<Entry> entries = new ArrayList<Entry>();
             for (int j = 0; j < data.size(); j++) {
