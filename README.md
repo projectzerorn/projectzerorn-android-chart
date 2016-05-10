@@ -11,6 +11,7 @@ about MpAndroidChart ,you can read doc:
 
 ```
 npm install projectzerorn-android-chart --save
+($ npm install rnpm --global)
 rnpm link projectzerorn-android-chart
 ```
 
