@@ -45,7 +45,8 @@ public class MPBarChartManager extends MPBarLineChartManager {
                 ArrayList<StackedBarData> list = new ArrayList<StackedBarData>();
 
                 ReadableArray ra=rm.getArray("yValues");
-                for(int i=0;i<xVals.size();i++) {
+                int count = ra.getMap(0).getArray("data").size();
+                for(int i=0;i<count;i++) {
                     StackedBarData need2save = new StackedBarData();
 
                     for(int j=0;j<ra.size();j++){
