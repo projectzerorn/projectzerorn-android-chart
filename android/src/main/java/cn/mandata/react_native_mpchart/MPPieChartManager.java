@@ -1,25 +1,21 @@
 package cn.mandata.react_native_mpchart;
 
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.SimpleViewManager;
-import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieRadarChartBase;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.Legend.LegendPosition;
-import android.graphics.Color;
-import android.text.Spanned;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.AbsoluteSizeSpan;
 
 import java.util.ArrayList;
 
@@ -35,6 +31,7 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
     @Override
     protected PieChart createViewInstance(ThemedReactContext reactContext) {
         PieChart chart = new PieChart(reactContext);
+        chart.setHoleColorTransparent(true);
         return chart;
     }
 
