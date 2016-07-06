@@ -16,6 +16,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
 
 import java.util.ArrayList;
 
@@ -79,6 +80,16 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
         if (rm.hasKey("valueTextColor")) {
             pieData.setValueTextColor(Color.parseColor(rm.getString("valueTextColor")));
         }
+        if (rm.hasKey("selected")){
+            ReadableArray selectedArray =rm.getArray("selected");
+            Highlight[] list = new Highlight[selectedArray.size()];
+            for (int i = 0; i < selectedArray.size(); i++) {
+                int temp = selectedArray.getInt(i);
+                list[i] = new Highlight(temp, 0);
+            }
+            chart.highlightValues(list);
+        }
+
         chart.setData(pieData);
         chart.setRotationEnabled(false); // 不可以手动旋转
         chart.invalidate();
