@@ -42,12 +42,6 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
     @ReactProp(name = "data")
     public void setData(PieChart chart, ReadableMap rm) {
 
-        ReadableArray xArray = rm.getArray("xValues");
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int m = 0; m < xArray.size(); m++) {
-            xVals.add(xArray.getString(m));
-        }
-
         ReadableArray ra = rm.getArray("yValues");
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         ArrayList<Integer> colorsArrayList = new ArrayList<Integer>();
@@ -74,6 +68,18 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
         }
         if (rm.hasKey("drawValues")) {
             dataSet.setDrawValues(rm.getBoolean("drawValues"));
+        }
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        if(rm.hasKey("xValues")){
+            ReadableArray xArray = rm.getArray("xValues");
+            for (int m = 0; m < xArray.size(); m++) {
+                xVals.add(xArray.getString(m));
+            }
+        }else{
+            for(int x = 0; x < dataSet.getEntryCount(); x++){//补齐数据避免报错One or more of the DataSet Entry arrays are longer than the x-values array of this ChartData object.
+                xVals.add("");
+            }
         }
 
         PieData pieData = new PieData(xVals, dataSet);
