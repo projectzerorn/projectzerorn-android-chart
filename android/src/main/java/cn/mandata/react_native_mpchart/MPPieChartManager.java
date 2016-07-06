@@ -1,5 +1,6 @@
 package cn.mandata.react_native_mpchart;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class MPPieChartManager extends SimpleViewManager<PieChart> {
     private String CLASS_NAME = "MPPieChart";
     private boolean hasHoleFrame;
+    private Context mContext;
 
     @Override
     public String getName() {
@@ -31,6 +33,7 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
 
     @Override
     protected PieChart createViewInstance(ThemedReactContext reactContext) {
+        mContext = reactContext;
         PieChart chart = new PieChart(reactContext);
         chart.setHoleColorTransparent(true);
         return chart;
@@ -193,7 +196,7 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
             ReadableMap temp = ra.getMap(i);
             String tempText = temp.getString("text");
             Integer tempColor = Color.parseColor(temp.getString("color"));
-            int tempSize = temp.getInt("size");
+            float tempSize = temp.getInt("size") / 3 * UIUtil.getWindowDensity(mContext);
             boolean isWrap = temp.getBoolean("isWrap");
             if(isWrap){
                 index++;
@@ -203,7 +206,7 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
             centerText.setSpan(new ForegroundColorSpan(tempColor), index, index+tempText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             //文字大小, //AbsoluteSizeSpan第二个参数boolean dip，如果为true，表示前面的字体大小单位为dip，否则为像素
-            centerText.setSpan(new AbsoluteSizeSpan(tempSize,true), index, index+tempText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            centerText.setSpan(new AbsoluteSizeSpan(Math.round(tempSize),true), index, index+tempText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             index = index + tempText.length();
         }
