@@ -4,10 +4,10 @@ package com.github.mikephil.charting.data;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
-
-import com.github.mikephil.charting.utils.ColorTemplate;
+import android.graphics.drawable.Drawable;
 import com.github.mikephil.charting.formatter.DefaultFillFormatter;
 import com.github.mikephil.charting.formatter.FillFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Utils;
 
 import java.util.ArrayList;
@@ -40,6 +40,9 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
     private boolean mDrawCubic = false;
 
     private boolean mDrawCircleHole = true;
+
+    /** the drawable to be used for filling the line surface*/
+    protected Drawable mFillDrawable;
 
     public LineDataSet(List<Entry> yVals, String label) {
         super(yVals, label);
@@ -335,4 +338,28 @@ public class LineDataSet extends LineRadarDataSet<Entry> {
     public FillFormatter getFillFormatter() {
         return mFillFormatter;
     }
+
+    /**
+     * sets the color that is used for filling the line surface
+     * disables filling with a drawable
+     * @param color
+     */
+    public void setFillColor(int color) {
+        super.setFillColor(color);
+        mFillDrawable = null;
+    }
+
+    /**
+     * sets the drawable to be used for filling the line surface. The drawable is used
+     * instead of the solid color
+     * @param drawable
+     */
+    public void setFillDrawable(Drawable drawable) {
+        mFillDrawable = drawable;
+    }
+
+    public Drawable getFillDrawable() {
+        return mFillDrawable;
+    }
+
 }

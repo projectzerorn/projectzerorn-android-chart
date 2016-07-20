@@ -1,6 +1,7 @@
 package cn.mandata.react_native_mpchart;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -80,6 +81,18 @@ public class MPLineChartManager extends MPBarLineChartManager {
             if(config.hasKey("fillColor")){
                 dataSet.setFillColor(Color.parseColor(config.getString("fillColor")));
             }
+            if(config.hasKey("fillColorTop") && config.hasKey("fillColorBottom")){
+                GradientDrawable drawable = new GradientDrawable(
+                        GradientDrawable.Orientation.TOP_BOTTOM,
+                        new int[] {Color.parseColor(config.getString("fillColorTop")),
+                                    Color.parseColor(config.getString("fillColorBottom"))});
+                dataSet.setFillDrawable(drawable);
+            }
+            if(config.hasKey("fillAlpha")){
+                int fillAlpha = (int) (config.getDouble("fillAlpha")*255);
+                dataSet.setFillAlpha(fillAlpha);
+            }
+
             if(config.hasKey("lineWidth")){
                 dataSet.setLineWidth(config.getInt("lineWidth"));
             }

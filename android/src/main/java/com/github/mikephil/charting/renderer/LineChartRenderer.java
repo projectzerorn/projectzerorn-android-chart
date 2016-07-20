@@ -1,12 +1,8 @@
 
 package com.github.mikephil.charting.renderer;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-
+import android.graphics.*;
+import android.graphics.drawable.Drawable;
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.buffer.CircleBuffer;
 import com.github.mikephil.charting.buffer.LineBuffer;
@@ -14,8 +10,8 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.LineDataProvider;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.LineDataProvider;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -85,7 +81,7 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
             if (width > 0 && height > 0) {
 
-                mDrawBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444);
+                mDrawBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 mBitmapCanvas = new Canvas(mDrawBitmap);
             } else
                 return;
@@ -125,6 +121,22 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
         }
 
         mRenderPaint.setPathEffect(null);
+    }
+
+    /**
+     * Draws the provided path in filled mode with the provided drawable.
+     */
+    protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
+        c.save();
+        c.clipPath(filledPath);
+
+        drawable.setBounds((int) mViewPortHandler.contentLeft(),
+                (int) mViewPortHandler.contentTop(),
+                (int) mViewPortHandler.contentRight(),
+                (int) mViewPortHandler.contentBottom());
+        drawable.draw(c);
+
+        c.restore();
     }
 
     /**
@@ -254,6 +266,13 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
 
         trans.pathValueToPixel(spline);
 
+        final Drawable drawable = dataSet.getFillDrawable();
+        if (dataSet.getFillDrawable() != null) {
+            drawable.setAlpha(dataSet.getFillAlpha());
+            drawFilledPath(c, spline, drawable);
+            return;
+        }
+
         drawFilledPath(c, spline, dataSet.getFillColor(), dataSet.getFillAlpha());
     }
 
@@ -352,6 +371,13 @@ public class LineChartRenderer extends LineScatterCandleRadarRenderer {
                 dataSet.getFillFormatter().getFillLinePosition(dataSet, mChart), minx, maxx);
 
         trans.pathValueToPixel(filled);
+
+        final Drawable drawable = dataSet.getFillDrawable();
+        if (drawable != null) {
+            drawable.setAlpha(dataSet.getFillAlpha());
+            drawFilledPath(c, filled, drawable);
+            return;
+        }
 
         drawFilledPath(c, filled, dataSet.getFillColor(), dataSet.getFillAlpha());
     }
