@@ -17,8 +17,11 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MPPieChartManager extends SimpleViewManager<PieChart> {
@@ -49,7 +52,7 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
             ReadableMap temp = ra.getMap(i);
 
             if (temp.hasKey("data")) {
-                yVals.add(new Entry((float) temp.getInt("data"), i));
+                yVals.add(new Entry((float) temp.getDouble("data"), i));
             }
             if (temp.hasKey("color")) {
                 colorsArrayList.add(Color.parseColor(temp.getString("color")));
@@ -98,6 +101,14 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
             }
             chart.highlightValues(list);
         }
+
+        if(rm.hasKey("isShowValuesPercent") && rm.getBoolean("isShowValuesPercent")){//百分比数据
+            pieData.setValueFormatter(new PercentValueFormatter("#.#"));
+            chart.setUsePercentValues(true);
+        }else{//正常数据
+            pieData.setValueFormatter(new NormalValueFormatter("#"));
+        }
+
 
         chart.setData(pieData);
         chart.setRotationEnabled(false); // 不可以手动旋转
@@ -218,5 +229,31 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
         }
 
         chart.setCenterText(centerText);
+    }
+
+    public class PercentValueFormatter implements ValueFormatter {
+        private DecimalFormat mFormat;
+
+        public PercentValueFormatter(String f) {
+            mFormat = new DecimalFormat(f);
+        }
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return mFormat.format(value) + "%";
+        }
+    }
+
+    public class NormalValueFormatter implements ValueFormatter {
+        private DecimalFormat mFormat;
+
+        public NormalValueFormatter(String f) {
+            mFormat = new DecimalFormat(f);
+        }
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            return mFormat.format(value);
+        }
     }
 }
