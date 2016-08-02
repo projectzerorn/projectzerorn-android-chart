@@ -12,6 +12,7 @@ import com.github.mikephil.charting.components.*;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.DecimalFormat;
@@ -239,6 +240,13 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
     //{EnableLeft:true,EnableRight:true}
     @ReactProp(name="yAxis")
     public  void  setYAxis(BarLineChartBase chart,ReadableMap v){
+        //unitLabel 增加单位显示
+        if(v.hasKey("unitLabel")){
+
+            chart.getAxisLeft().setValueFormatter(new UnitFormatter(v.getString("unitLabel")));
+            chart.getAxisRight().setValueFormatter(new UnitFormatter(v.getString("unitLabel")));
+        }
+
         YAxis x= chart.getAxisLeft();
         setAxisInfo(x,v);
         setYAxisInfo(x,v);
@@ -335,6 +343,21 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
             return mFormat.format(value);
+        }
+    }
+
+    private class UnitFormatter implements YAxisValueFormatter {
+        private DecimalFormat mFormat;
+        private String mUnit;
+
+        public UnitFormatter(String unit) {
+            mUnit = unit;
+            mFormat = new DecimalFormat("#");
+        }
+
+        @Override
+        public String getFormattedValue(float value, YAxis yAxis) {
+            return mFormat.format(value) + mUnit;
         }
     }
 }
