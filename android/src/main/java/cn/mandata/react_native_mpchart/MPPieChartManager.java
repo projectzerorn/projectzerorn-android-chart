@@ -103,12 +103,23 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
         }
 
         if(rm.hasKey("isShowValuesPercent") && rm.getBoolean("isShowValuesPercent")){//百分比数据
-            pieData.setValueFormatter(new PercentValueFormatter("#.#"));
-            chart.setUsePercentValues(true);
-        }else{//正常数据
-            pieData.setValueFormatter(new NormalValueFormatter("#"));
-        }
 
+            if(rm.hasKey("isShowZero")){
+                pieData.setValueFormatter(new PercentValueFormatter("#.#", rm.getBoolean("isShowZero")));
+            }else{
+                pieData.setValueFormatter(new PercentValueFormatter("#.#"));
+            }
+            chart.setUsePercentValues(true);
+
+        }else{//正常数据
+
+            if(rm.hasKey("isShowZero")){
+                pieData.setValueFormatter(new NormalValueFormatter("#", rm.getBoolean("isShowZero")));
+            }else{
+                pieData.setValueFormatter(new NormalValueFormatter("#"));
+            }
+
+        }
 
         chart.setData(pieData);
         chart.setRotationEnabled(false); // 不可以手动旋转
@@ -233,6 +244,12 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
 
     public class PercentValueFormatter implements ValueFormatter {
         private DecimalFormat mFormat;
+        private boolean mIsShowZero = false;
+
+        public PercentValueFormatter(String f, boolean isShowZero) {
+            mFormat = new DecimalFormat(f);
+            mIsShowZero = isShowZero;
+        }
 
         public PercentValueFormatter(String f) {
             mFormat = new DecimalFormat(f);
@@ -240,12 +257,26 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
 
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-            return mFormat.format(value) + "%";
+            String ret = mFormat.format(value) + "%";
+            if(value == 0){
+                if(mIsShowZero){
+                    ret = mFormat.format(value) + "%";
+                }else{
+                    ret = "";
+                }
+            }
+            return ret;
         }
     }
 
     public class NormalValueFormatter implements ValueFormatter {
         private DecimalFormat mFormat;
+        private boolean mIsShowZero = false;
+
+        public NormalValueFormatter(String f, boolean isShowZero) {
+            mFormat = new DecimalFormat(f);
+            mIsShowZero = isShowZero;
+        }
 
         public NormalValueFormatter(String f) {
             mFormat = new DecimalFormat(f);
@@ -253,7 +284,15 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
 
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-            return mFormat.format(value);
+            String ret = mFormat.format(value);
+            if(value == 0){
+                if(mIsShowZero){
+                    ret = mFormat.format(value);
+                }else{
+                    ret = "";
+                }
+            }
+            return ret;
         }
     }
 }
