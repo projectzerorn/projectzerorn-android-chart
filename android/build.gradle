@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 
 buildscript {
     repositories {
+        maven { url 'http://maven.aliyun.com/mvn/repository/' }
         jcenter()
     }
 
@@ -13,7 +14,7 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
-        maven { url 'http://maven.oschina.net/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/mvn/repository/' }
         maven { url '$projectDir/../../../node_modules/react-native/android' }
         mavenCentral()
     }
