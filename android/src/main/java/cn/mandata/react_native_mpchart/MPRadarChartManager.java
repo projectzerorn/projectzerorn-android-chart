@@ -1,31 +1,20 @@
 package cn.mandata.react_native_mpchart;
 
 import android.graphics.Color;
-
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieRadarChartBase;
-import com.github.mikephil.charting.charts.LineChart;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MPRadarChartManager extends SimpleViewManager<RadarChart> {
     private String CLASS_NAME = "MPRadarChart";
@@ -61,7 +50,11 @@ public class MPRadarChartManager extends SimpleViewManager<RadarChart> {
         for (int i = 0; i < ra.size(); i++) {
             ReadableMap map = ra.getMap(i);
             ReadableArray data = map.getArray("values");
-            String label = map.getString("label");
+            String label = "";
+            if(map.hasKey("label")){
+                label = map.getString("label");
+            }
+
             ArrayList<Entry> entries = new ArrayList<Entry>();
             for (int j = 0; j < data.size(); j++) {
                 Entry be = new Entry((float) data.getDouble(j), j);
