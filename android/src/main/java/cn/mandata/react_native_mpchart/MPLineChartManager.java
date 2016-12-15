@@ -69,8 +69,8 @@ public class MPLineChartManager extends MPBarLineChartManager {
                 int[] colors=new int[]{Color.parseColor(config.getString("color"))};
                 dataSet.setColors(colors);
             }
-            if(config.hasKey("circleColorHole")){
-                dataSet.setCircleColorHole(Color.parseColor(config.getString("circleColorHole")));
+            if(config.hasKey("circleHoleColor")){
+                dataSet.setCircleColorHole(Color.parseColor(config.getString("circleHoleColor")));
             }
             if(config.hasKey("circleColors")){
                 dataSet.setCircleColors(new int[]{Color.parseColor(config.getString("circleColors"))});
