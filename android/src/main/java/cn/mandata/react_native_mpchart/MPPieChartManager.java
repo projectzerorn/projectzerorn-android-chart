@@ -6,6 +6,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -109,6 +110,11 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
             }else{
                 pieData.setValueFormatter(new PercentValueFormatter("#.#"));
             }
+
+            if(rm.hasKey("showPercentAbove")){
+                pieData.setValueFormatter(new PercentValueFormatter("#.#", rm.getDouble("showPercentAbove")));
+            }
+
             chart.setUsePercentValues(true);
 
         }else{//正常数据
@@ -245,10 +251,15 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
     public class PercentValueFormatter implements ValueFormatter {
         private DecimalFormat mFormat;
         private boolean mIsShowZero = false;
+        private double mShowPercentAbove = 0d;
 
         public PercentValueFormatter(String f, boolean isShowZero) {
             mFormat = new DecimalFormat(f);
             mIsShowZero = isShowZero;
+        }
+        public PercentValueFormatter(String f, double showPercentAbove) {
+            mFormat = new DecimalFormat(f);
+            mShowPercentAbove = showPercentAbove;
         }
 
         public PercentValueFormatter(String f) {
@@ -257,6 +268,7 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
 
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            android.util.Log.v("jackzhou", "111111-value="+value + "  - mShowPercentAbove="+mShowPercentAbove);
             String ret = mFormat.format(value) + "%";
             if(value == 0){
                 if(mIsShowZero){
@@ -265,6 +277,11 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
                     ret = "";
                 }
             }
+
+            if(mShowPercentAbove > 0 && value < mShowPercentAbove*100d){
+                ret = "";
+            }
+
             return ret;
         }
     }
