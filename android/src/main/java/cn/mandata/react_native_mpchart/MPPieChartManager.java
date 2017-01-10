@@ -268,7 +268,6 @@ public class MPPieChartManager extends SimpleViewManager<PieChart> {
 
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-            android.util.Log.v("jackzhou", "111111-value="+value + "  - mShowPercentAbove="+mShowPercentAbove);
             String ret = mFormat.format(value) + "%";
             if(value == 0){
                 if(mIsShowZero){
