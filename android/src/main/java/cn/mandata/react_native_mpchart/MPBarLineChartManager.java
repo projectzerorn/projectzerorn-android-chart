@@ -222,7 +222,7 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
         if(v.hasKey("axisMinValue")) axis.setAxisMinValue((float) v.getDouble("axisMinValue"));
         if(v.hasKey("inverted")) axis.setInverted(v.getBoolean("inverted"));
 
-        if(v.hasKey("spaceTop")) axis.setSpaceTop((float) (v.getDouble("spaceTop")));
+        if(v.hasKey("spaceTop")) axis.setSpaceTop(((float) (v.getDouble("spaceTop")))*100f);
         if(v.hasKey("spaceBottom")) axis.setSpaceBottom((float) (v.getDouble("spaceBottom")));
 
         if(v.hasKey("showOnlyMinMax")) axis.setShowOnlyMinMax(v.getBoolean("showOnlyMinMax"));
