@@ -240,13 +240,17 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
     //{EnableLeft:true,EnableRight:true}
     @ReactProp(name="yAxis")
     public  void  setYAxis(BarLineChartBase chart,ReadableMap v){
-        //unitLabel 增加单位显示
-        if(v.hasKey("unitLabel")){
-
+        //unitLabel 增加单位显示 & value 格式化
+        if(v.hasKey("valueFormat") && v.hasKey("unitLabel")){
+            chart.getAxisLeft().setValueFormatter(new UnitFormatter(v.getString("unitLabel"),v.getString("valueFormat")));
+            chart.getAxisRight().setValueFormatter(new UnitFormatter(v.getString("unitLabel"),v.getString("valueFormat")));
+        }else if(v.hasKey("unitLabel")){
             chart.getAxisLeft().setValueFormatter(new UnitFormatter(v.getString("unitLabel")));
             chart.getAxisRight().setValueFormatter(new UnitFormatter(v.getString("unitLabel")));
+        }else if(v.hasKey("valueFormat")){
+            chart.getAxisLeft().setValueFormatter(new UnitFormatter("",v.getString("valueFormat")));
+            chart.getAxisRight().setValueFormatter(new UnitFormatter("",v.getString("valueFormat")));
         }
-
         YAxis x= chart.getAxisLeft();
         setAxisInfo(x,v);
         setYAxisInfo(x,v);
@@ -346,7 +350,7 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
         }
     }
 
-    private class UnitFormatter implements YAxisValueFormatter {
+      private class UnitFormatter implements YAxisValueFormatter {
         private DecimalFormat mFormat;
         private String mUnit;
 
@@ -355,6 +359,10 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
             mFormat = new DecimalFormat("#");
         }
 
+        public UnitFormatter(String unit,String valueFormat) {
+            mUnit = unit;
+            mFormat = new DecimalFormat(valueFormat);
+        }
         @Override
         public String getFormattedValue(float value, YAxis yAxis) {
             return mFormat.format(value) + mUnit;
