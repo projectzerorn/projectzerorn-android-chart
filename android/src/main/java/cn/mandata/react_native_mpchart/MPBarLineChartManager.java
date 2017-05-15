@@ -228,7 +228,7 @@ public class MPBarLineChartManager extends SimpleViewManager<BarLineChartBase> {
         if(v.hasKey("showOnlyMinMax")) axis.setShowOnlyMinMax(v.getBoolean("showOnlyMinMax"));
         if(v.hasKey("labelCount")){
             axis.setLabelCount(v.getInt("labelCount"), v.getInt("labelCount")>6?true:false);//fix 小于6个节点 错位问题
-            if(v.getInt("labelCount") == 1){//数值等于1的特殊处理
+            if(v.getInt("labelCount") < 2){//数值等于1和0的特殊处理
                 axis.setLabelCount(1, true);
             }
         }
